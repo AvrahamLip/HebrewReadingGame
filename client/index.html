@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק קריאה בעברית</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- A. Language Selection Screen -->
+        <div id="language-screen" class="screen active">
+            <h1>Hebrew Reading Game 🦁</h1>
+            <h2>Choose Language / בחר שפה:</h2>
+            <div class="mode-selector" style="margin-bottom: 20px;">
+                <button class="mode-btn" onclick="setLanguage('he')">🇮🇱 עברית</button>
+                <button class="mode-btn" onclick="setLanguage('en')">🇺🇸 English</button>
+            </div>
+            <div class="version-info" style="margin-top: 20px; font-size: 0.8rem; color: #888;">
+                v1.5.0 (English Support 🇺🇸)
+            </div>
+        </div>
+
+        <!-- Welcome Screen (Game Mode Selection) -->
+        <div id="welcome-screen" class="screen hidden">
+            <h1 id="welcome-title">לומדים לקרוא בכיף! 🦁</h1>
+            <h2 id="choose-game-mode-title">בחר סוג משחק:</h2>
+            <div class="mode-selector" style="margin-bottom: 20px;">
+                <button id="mode-read" class="mode-btn selected" onclick="setGameMode('read')">🎤 קריאה בדיבור</button>
+                <button id="mode-match" class="mode-btn" onclick="setGameMode('match')">👆 התאמת מילים</button>
+            </div>
+
+            <h2 id="choose-level-title">בחר רמה להתחלה:</h2>
+            <div class="level-buttons">
+                <button id="lvl-btn-1" onclick="handleLevelClick(1)">רמה 1: קמץ ופתח</button>
+                <button id="lvl-btn-2" onclick="handleLevelClick(2)">רמה 2: חיריק</button>
+                <button id="lvl-btn-3" onclick="handleLevelClick(3)">רמה 3: סגול וצירה</button>
+                <button id="lvl-btn-4" onclick="handleLevelClick(4)">רמה 4: שורוק וקובוץ</button>
+            </div>
+            <button onclick="showLanguageScreen()"
+                style="margin-top: 20px; background: transparent; border: 1px solid #ccc; color: #666;">🔙 Change
+                Language / שנה שפה</button>
+            <p id="mic-error-welcome" class="error-message hidden">לא נמצא מיקרופון. אנא אפשר גישה למיקרופון.</p>
+            <div class="version-info" style="margin-top: 20px; font-size: 0.8rem; color: #888;">
+                v1.4.0 (Friendly Assets Update 🦁)
+            </div>
+        </div>
+
+        <!-- Game Screen (Reading) -->
+        <div id="game-screen" class="screen hidden">
+            <div class="header">
+                <button onclick="goHome()" class="home-btn" id="home-btn-game">🏠 בית</button>
+                <button onclick="restartLevel()" class="home-btn" id="restart-btn"
+                    style="margin-right: 5px; background-color: #f0ad4e;">🔄 מחדש</button>
+                <div class="score"><span id="score-label">ניקוד:</span> <span id="score-val">0</span></div>
+            </div>
+
+            <div class="card">
+                <div class="image-area">
+                    <span id="word-emoji" class="emoji">❓</span>
+                </div>
+                <div class="word-area">
+                    <h2 id="target-word"> ... </h2>
+                </div>
+            </div>
+
+            <div class="feedback-area">
+                <div id="mic-icon" class="mic-icon" onclick="startListening()">🎤</div>
+                <p id="status-text">תגיד את המילה...</p>
+                <button id="manual-start-btn" onclick="startListening()"
+                    style="font-size: 1.5rem; padding: 20px 40px; background-color: #4D96FF; margin: 10px;">🎙️ דבר
+                    עכשיו</button>
+                <button id="skip-btn" onclick="skipWord()"
+                    style="background-color: #aaa; margin-top: 10px; font-size: 1rem;">⏭️
+                    דלג</button>
+                <p id="mic-error" class="error-message hidden">שגיאה במיקרופון</p>
+            </div>
+
+            <div id="debug-area"
+                style="margin-top: 20px; font-size: 0.8rem; color: #666; border: 1px solid #ccc; padding: 10px; display: none;">
+                <strong>Debug Log:</strong>
+                <div id="debug-log"></div>
+                <hr>
+                <strong>Last Recording:</strong>
+                <audio id="audio-playback" controls style="width: 100%; margin-top: 5px;"></audio>
+            </div>
+            <button onclick="toggleDebug()"
+                style="font-size: 0.8rem; padding: 5px 10px; margin-top:10px; background:#ddd; color:#333;">Show
+                Debug</button>
+        </div>
+
+        <!-- Match Game Screen -->
+        <div id="match-screen" class="screen hidden">
+            <div class="header">
+                <button onclick="goHome()" class="home-btn" id="home-btn-match">🏠 בית</button>
+                <div class="progress-container" style="flex-grow: 1; margin: 0 15px;">
+                    <div class="progress-bar-bg"
+                        style="background: #e0e0e0; height: 20px; border-radius: 10px; width: 100%;">
+                        <div id="match-progress"
+                            style="background: #6BCB77; height: 100%; width: 0%; border-radius: 10px; transition: width 0.3s;">
+                        </div>
+                    </div>
+                    <div style="font-size: 0.9rem; margin-top: 5px;"><span id="words-left-label">מילים נותרו:</span>
+                        <span id="words-left">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card match-hero" style="margin-bottom: 20px; padding: 20px;">
+                <div class="image-area">
+                    <span id="match-target-emoji" class="emoji" style="font-size: 8rem;">🦁</span>
+                </div>
+            </div>
+
+            <div id="match-grid" class="word-grid"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%;">
+                <!-- Buttons injected by JS -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="skip-btn-match" onclick="skipWord()" style="background-color: #aaa; font-size: 1rem;">⏭️ דלג
+                    על מילה</button>
+            </div>
+        </div>
+
+        <!-- Success Overlay -->
+        <div id="success-overlay" class="overlay hidden">
+            <div class="checkmark">✨ כל הכבוד! ✨</div>
+        </div>
+
+        <footer>
+            <div class="footer-credits">
+                Developed with ❤️ by <strong>Avraham Lipshitz</strong> in collaboration with
+                <strong>Antigravity</strong> 🇺🇸
+                <br>
+                פותח באהבה ע״י <strong>אברהם ליפשיץ</strong> בשיתוף עם <strong>Antigravity</strong> 🇮🇱
+            </div>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/avrahamlipscitz/" target="_blank">LinkedIn</a>
+                <span style="color: #ddd;">|</span>
+                <a href="mailto:lip.avi@gmail.com">lip.avi@gmail.com</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Configuration loaded from server -->
+    <script src="/env.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
