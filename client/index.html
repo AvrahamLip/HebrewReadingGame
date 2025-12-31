@@ -33,6 +33,7 @@
             <div class="mode-selector" style="margin-bottom: 20px;">
                 <button id="mode-read" class="mode-btn selected" onclick="setGameMode('read')">🎤 קריאה בדיבור</button>
                 <button id="mode-match" class="mode-btn" onclick="setGameMode('match')">👆 התאמת מילים</button>
+                <button id="mode-memory" class="mode-btn" onclick="setGameMode('memory')">🧠 משחק זיכרון</button>
             </div>
 
             <h2 id="choose-level-title">בחר רמה להתחלה:</h2>
@@ -127,9 +128,43 @@
             </div>
         </div>
 
+        <!-- Memory Game Screen -->
+        <div id="memory-screen" class="screen hidden">
+            <div class="header">
+                <button onclick="goHome()" class="home-btn" id="home-btn-memory">🏠 בית</button>
+                <button onclick="restartLevel()" class="home-btn" id="restart-btn-memory"
+                    style="margin-right: 5px; background-color: #f0ad4e;">🔄 מחדש</button>
+                <div class="score"><span id="pairs-left-label">זוגות נותרו:</span> <span id="pairs-left">0</span></div>
+            </div>
+
+            <div id="memory-grid" class="memory-grid">
+                <!-- Cards injected by JS -->
+            </div>
+            <div style="text-align: center; margin-top: 10px;">
+                <button id="skip-btn-memory" onclick="skipWord()" style="background-color: #aaa; font-size: 1rem;">⏭️
+                    דלג משחק</button>
+            </div>
+        </div>
+
         <!-- Success Overlay -->
         <div id="success-overlay" class="overlay hidden">
             <div class="checkmark">✨ כל הכבוד! ✨</div>
+        </div>
+
+        <!-- Memory Game Success Overlay -->
+        <div id="memory-success-overlay" class="overlay hidden"
+            style="flex-direction: column; background: rgba(255, 255, 255, 0.95);">
+            <div class="checkmark" style="color: var(--secondary-color); margin-bottom: 20px;">✨ כל הכבוד! ✨</div>
+            <div style="font-size: 1.5rem; margin-bottom: 30px; color: #333;">סיימת את השלב בהצלחה!</div>
+            <div style="display: flex; gap: 20px;">
+                <button onclick="restartMemoryLevel()" style="background-color: var(--accent-color);">🔄 שחק
+                    שוב</button>
+                <button id="mem-next-level-btn" onclick="nextMemoryLevel()"
+                    style="background-color: var(--secondary-color);">⏭️ שלב הבא</button>
+            </div>
+            <button onclick="goHome()"
+                style="background-color: #888; margin-top: 20px; font-size: 1rem; padding: 10px 20px;">🏠 חזרה
+                לבית</button>
         </div>
 
         <footer>
@@ -149,7 +184,7 @@
 
     <!-- Configuration loaded from server -->
     <script src="/env.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="js/main.js?v=10"></script>
 </body>
 
 </html>

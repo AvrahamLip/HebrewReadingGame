@@ -1,0 +1,71 @@
+// 1. Priority: Localhost -> Always use Local DB
+// 2. Secondary: Environment Variable from Server (for Prod)
+// 3. Fallback: Default Production URL or Relative
+export const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000'
+    : ((window.env && window.env.API_URL) ? window.env.API_URL : 'https://hebrewreadinggame.onrender.com');
+
+export const UI_TEXT = {
+    'he': {
+        'welcome_title': "לומדים לקרוא בכיף! 🦁",
+        'choose_game_mode': "בחר סוג משחק:",
+        'mode_read': "🎤 קריאה בדיבור",
+        'mode_match': "👆 התאמת מילים",
+        'choose_level': "בחר רמה להתחלה:",
+        'level_1': "רמה 1: קמץ ופתח",
+        'level_2': "רמה 2: חיריק",
+        'level_3': "רמה 3: סגול וצירה",
+        'level_4': "רמה 4: שורוק וקובוץ",
+        'home': "🏠 בית",
+        'restart': "🔄 מחדש",
+        'score_label': "ניקוד: ",
+        'status_listen': "מקשיב... 👂 (5 שניות)",
+        'status_mic_off': "המיקרופון כבוי. לחץ כדי לדבר.",
+        'status_say': "לחץ על המיקרופון וקרא את המילה",
+        'btn_speak': "🎙️ דבר עכשיו",
+        'btn_skip': "⏭️ דלג",
+        'error_mic': "שגיאה: ",
+        'error_no_mic': "גישה למיקרופון נדחתה. נא לאשר בדפדפן.",
+        'words_left_label': "מילים נותרו: ",
+        'success': "✨ כל הכבוד! ✨",
+        'level_up': "✨ כל הכבוד! עלית רמה! ✨",
+        'skip_match_btn': "⏭️ דלג על מילה",
+        'alert_finish': "כל הכבוד! סיימת את כל המילים! 🏆",
+        'alert_round': "כל הכבוד! סיימת את המילים. מתחילים סבב חדש!",
+        'alert_no_image': "כל הכבוד! סיימת את כל המילים. עכשיו ננסה בלי תמונות! 🫣",
+        'mode_memory': "🧠 משחק זיכרון",
+        'pairs_left_label': "זוגות נותרו: ",
+        'btn_skip_game': "⏭️ דלג משחק"
+    },
+    'en': {
+        'welcome_title': "Learn to Read! 🦁",
+        'choose_game_mode': "Choose Game Mode:",
+        'mode_read': "🎤 Read Aloud",
+        'mode_match': "👆 Match Word",
+        'choose_level': "Choose Level:",
+        'level_1': "Level 1: Basic Words",
+        'level_2': "Level 2: Common Objects",
+        'level_3': "Level 3: Animals & Nature",
+        'level_4': "Level 4: Advanced",
+        'home': "🏠 Home",
+        'restart': "🔄 Restart",
+        'score_label': "Score: ",
+        'status_listen': "Listening... 👂 (5s)",
+        'status_mic_off': "Mic is off. Click to speak.",
+        'status_say': "Click microphone and read the word",
+        'btn_speak': "🎙️ Speak Now",
+        'btn_skip': "⏭️ Skip",
+        'error_mic': "Error: ",
+        'error_no_mic': "Microphone access denied.",
+        'words_left_label': "Words Left: ",
+        'success': "✨ Good Job! ✨",
+        'level_up': "✨ Awesome! Level Up! ✨",
+        'skip_match_btn': "⏭️ Skip Word",
+        'alert_finish': "Great Job! You finished all words! 🏆",
+        'alert_round': "Well done! Starting new round!",
+        'alert_no_image': "Great job! Now let's try without pictures! 🫣",
+        'mode_memory': "🧠 Memory Game",
+        'pairs_left_label': "Pairs Left: ",
+        'btn_skip_game': "⏭️ Skip Game"
+    }
+};
