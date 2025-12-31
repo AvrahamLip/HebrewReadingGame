@@ -134,7 +134,7 @@ function checkForMatch() {
         setTimeout(() => {
             state.flippedCards.forEach(c => c.el.classList.remove('flipped'));
             resetBoard();
-        }, 10);
+        }, 5000); // 5 Seconds Delay
     }
 }
 
