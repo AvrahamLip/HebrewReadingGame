@@ -15,11 +15,12 @@ export function startMemoryGame(level) {
 function generateMemoryBoard() {
     let pairsCount = 6;
     let columns = 3;
+    const level = parseInt(state.currentLevel) || 1;
 
-    if (state.currentLevel === 1) { pairsCount = 6; columns = 3; }     // 12 cards (3x4)
-    else if (state.currentLevel === 2) { pairsCount = 8; columns = 4; } // 16 cards (4x4)
-    else if (state.currentLevel === 3) { pairsCount = 10; columns = 5; } // 20 cards (5x4)
-    else if (state.currentLevel >= 4) { pairsCount = 12; columns = 6; }  // 24 cards (6x4)
+    if (level === 1) { pairsCount = 6; columns = 3; }     // 12 cards (3x4)
+    else if (level === 2) { pairsCount = 8; columns = 4; } // 16 cards (4x4)
+    else if (level === 3) { pairsCount = 10; columns = 5; } // 20 cards (5x4)
+    else if (level >= 4) { pairsCount = 12; columns = 6; }  // 24 cards (6x4)
 
     let availableWords = [...state.words];
     if (availableWords.length === 0) return;
@@ -134,7 +135,7 @@ function checkForMatch() {
         setTimeout(() => {
             state.flippedCards.forEach(c => c.el.classList.remove('flipped'));
             resetBoard();
-        }, 50);
+        }, 1000);
     }
 }
 
