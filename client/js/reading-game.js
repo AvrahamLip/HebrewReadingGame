@@ -1,4 +1,4 @@
-import { state, getText, resetState } from './state.js';
+import { state, getText, resetState } from './gamestate.js';
 import { stripNikud, logToDebug, renderAsset, shuffleArray, triggerConfetti } from './utils.js';
 // We need 'utils.js' to export 'stopAudioRecording'? If used. I disabled it in script.js.
 // We need 'goHome' from main or we reload.

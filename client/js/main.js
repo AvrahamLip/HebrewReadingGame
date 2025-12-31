@@ -1,9 +1,9 @@
-import { state, setLanguage, getText } from './state.js?v=5';
-import { fetchWords } from './api.js?v=5';
-import { goHome } from './utils.js?v=5';
-import * as ReadingGame from './reading-game.js?v=5';
-import * as MatchGame from './match-game.js?v=5';
-import * as MemoryGame from './memory-logic.js?v=2';
+import { state, setLanguage, getText } from './gamestate.js';
+import { fetchWords } from './api.js';
+import { goHome } from './utils.js';
+import * as ReadingGame from './reading-game.js';
+import * as MatchGame from './match-game.js';
+import * as MemoryGame from './memory-logic.js';
 
 // Attach Globals to Window for HTML onclick attributes
 window.setLanguage = (lang) => {
@@ -37,7 +37,8 @@ window.handleLevelClick = async (level) => {
     } else if (state.gameMode === 'memory') {
         document.getElementById('memory-screen').classList.remove('hidden');
         document.getElementById('memory-screen').classList.add('active');
-        const words = await fetchWords(level);
+        // User Request: Keep words at Level 1 difficulty, but allow Board Size (level) to increase.
+        const words = await fetchWords(1);
         if (words && words.length) MemoryGame.startMemoryGame(level);
     } else {
         // Default Reading Game

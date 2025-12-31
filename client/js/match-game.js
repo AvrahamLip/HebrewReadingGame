@@ -1,4 +1,4 @@
-import { state, getText } from './state.js';
+import { state, getText } from './gamestate.js';
 import { shuffleArray, renderAsset, speakWord, triggerConfetti, goHome } from './utils.js';
 
 export function startMatchGame(level) {

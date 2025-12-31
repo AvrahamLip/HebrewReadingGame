@@ -1,5 +1,5 @@
 import { API_URL } from './config.js';
-import { state } from './state.js';
+import { state } from './gamestate.js';
 import { shuffleArray } from './utils.js';
 
 export async function fetchWords(level) {

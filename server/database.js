@@ -36,7 +36,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                         ["camel", "גָּמָל", "🐫", 1, "/images/camel.png"], ["dad", "אַבָּא", "👨", 1, "/images/dad.png"], ["grandpa", "סַבָּא", "👴", 1, "/images/grandpa.png"],
                         ["milk", "חָלָב", "🥛", 1, "/images/milk.png"], ["banana", "בַּנָּנָה", "🍌", 1, "/images/banana.png"], ["gift", "מַתָּנָה", "🎁", 1, "/images/gift.png"],
                         ["cloud", "עָנָן", "☁️", 1, "/images/cloud.png"], ["gold", "זָהָב", "✨", 1, "/images/gold.png"], ["map", "מַפָּה", "🗺️", 1, "/images/map.png"],
-                        ["time", "זְמַן", "⏳", 1, "/images/time.png"], ["king", "מֶלֶךְ", "👑", 1, "/images/king.png"], ["white", "לָבָן", "⚪", 1, "/images/white.png"],
+                        ["time", "זְמַן", "⏳", 1, "/images/time.png"], ["white", "לָבָן", "⚪", 1, "/images/white.png"],
                         ["yellow", "צָהֹב", "💛", 1, "/images/yellow.png"], ["pan", "מַחֲבַת", "🍳", 1, "/images/pan.png"], ["butterfly", "פַּרְפַּר", "🦋", 1, "/images/butterfly.png"],
                         ["scorpion", "עַקְרָב", "🦂", 1, "/images/scorpion.png"], ["caterpillar", "זַחַל", "🐛", 1, "/images/caterpillar.png"], ["meat", "בָּשָׂר", "🥩", 1, "/images/meat.png"],
                         ["salad", "סָלָט", "🥗", 1, "/images/salad.png"], ["onion", "בָּצָל", "🧅", 1, "/images/onion.png"],
@@ -56,7 +56,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     ];
 
                     const level3Words = [
-                        ["book", "סֵפֶר", "📚", 3, "/images/book.png"], ["flag", "דֶּגֶל", "🇮🇱", 3, "/images/flag.png"], ["bread", "לֶחֶם", "🍞", 3, "/images/bread.png"],
+                        ["book", "סֵפֶר", "📚", 3, "/images/book.png"], ["flag", "דֶּגֶל", "🇮🇱", 3, "/images/flag.png"], ["king", "מֶלֶךְ", "👑", 3, "/images/king.png"], ["bread", "לֶחֶם", "🍞", 3, "/images/bread.png"],
                         ["salt", "מֶלַח", "🧂", 3, "/images/salt.png"], ["shoe", "נַעַל", "👟", 3, "/images/shoe.png"], ["sock", "גֶּרֶב", "🧦", 3, "/images/sock.png"],
                         ["heart", "לֵב", "❤️", 3, "/images/heart.png"], ["lion", "אַרְיֵה", "🦁", 3, "/images/lion.png"], ["egg", "בֵּיצָה", "🥚", 3, "/images/egg.png"], ["train", "רַכֶּבת", "🚂", 3, "/images/train.png"], ["notebook", "מַחְבֶּרֶת", "📒", 3, "/images/notebook.png"],
                         ["camera", "מַצְלֵמָה", "📷", 3, "/images/camera.png"], ["towel", "מַגֶּבֶת", "🧼", 3, "/images/towel.png"], ["field", "שָׂדֶה", "🌾", 3, "/images/field.png"],

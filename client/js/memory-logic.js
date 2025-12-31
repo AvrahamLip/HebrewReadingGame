@@ -1,4 +1,4 @@
-import { state, getText } from './state.js';
+import { state, getText } from './gamestate.js';
 import { shuffleArray, speakWord, triggerConfetti } from './utils.js';
 
 export function startMemoryGame(level) {
