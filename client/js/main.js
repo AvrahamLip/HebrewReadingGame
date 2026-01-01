@@ -6,39 +6,66 @@ import * as MatchGame from './match-game.js';
 import * as MemoryGame from './memory-logic.js';
 
 // Attach Globals to Window for HTML onclick attributes
+// Attach Globals to Window for HTML onclick attributes
 window.setLanguage = (lang) => {
     setLanguage(lang);
     updateUIText();
     document.getElementById('language-screen').classList.remove('active');
-    document.getElementById('welcome-screen').classList.remove('hidden');
-    document.getElementById('welcome-screen').classList.add('active');
+    document.getElementById('level-screen').classList.remove('hidden');
+    document.getElementById('level-screen').classList.add('active');
 };
 
 window.showLanguageScreen = () => {
-    document.getElementById('welcome-screen').classList.remove('active');
+    document.getElementById('level-screen').classList.remove('active');
     document.getElementById('language-screen').classList.add('active');
 };
 
-window.setGameMode = (mode) => {
-    state.gameMode = mode;
-    document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('selected'));
-    document.getElementById(`mode-${mode}`).classList.add('selected');
+window.showLevelScreen = () => {
+    document.getElementById('game-mode-screen').classList.remove('active');
+    document.getElementById('level-screen').classList.add('active');
 };
 
-window.handleLevelClick = async (level) => {
+window.selectLevel = (level) => {
     state.currentLevel = level;
-    document.getElementById('welcome-screen').classList.remove('active');
+    document.getElementById('level-screen').classList.remove('active');
+
+    // Show Game Mode Screen
+    document.getElementById('game-mode-screen').classList.remove('hidden');
+    document.getElementById('game-mode-screen').classList.add('active');
+
+    // Toggle Mode Options based on Level
+    const isLevelZero = level === 0;
+    if (isLevelZero) {
+        document.getElementById('standard-modes').style.display = 'none';
+        document.getElementById('level0-modes').style.display = 'flex';
+    } else {
+        document.getElementById('standard-modes').style.display = 'flex';
+        document.getElementById('level0-modes').style.display = 'none';
+    }
+};
+
+window.setGameMode = async (mode) => {
+    state.gameMode = mode;
+    document.getElementById('game-mode-screen').classList.remove('active');
+
+    // Start Game Decision Logic
+    const level = state.currentLevel;
 
     if (state.gameMode === 'match') {
         document.getElementById('match-screen').classList.remove('hidden');
         document.getElementById('match-screen').classList.add('active');
         const words = await fetchWords(level);
         if (words && words.length) MatchGame.startMatchGame(level);
-    } else if (state.gameMode === 'memory') {
+    } else if (state.gameMode === 'memory' || state.gameMode === 'memory-pic' || state.gameMode === 'memory-letter') {
         document.getElementById('memory-screen').classList.remove('hidden');
         document.getElementById('memory-screen').classList.add('active');
-        // User Request: Keep words at Level 1 difficulty, but allow Board Size (level) to increase.
-        const words = await fetchWords(1);
+
+        // Memory Logic:
+        // Level 0 variants (0, memory-pic, memory-letter): fetchLevel 0
+        // Levels 1+: Content of Level 1, but Board Size of Level N (User Rule)
+        const fetchLevel = (state.currentLevel === 0) ? 0 : 1;
+
+        const words = await fetchWords(fetchLevel);
         if (words && words.length) MemoryGame.startMemoryGame(level);
     } else {
         // Default Reading Game
@@ -85,6 +112,9 @@ function updateUIText() {
     document.getElementById('mode-memory').textContent = getText('mode_memory');
 
     document.getElementById('choose-level-title').textContent = getText('choose_level');
+    document.getElementById('lvl-btn-0').textContent = getText('level_0');
+    if (document.getElementById('mode-mem-pic')) document.getElementById('mode-mem-pic').textContent = getText('level_0_pic');
+    if (document.getElementById('mode-mem-letter')) document.getElementById('mode-mem-letter').textContent = getText('level_0_letter');
     document.getElementById('lvl-btn-1').textContent = getText('level_1');
     document.getElementById('lvl-btn-2').textContent = getText('level_2');
     document.getElementById('lvl-btn-3').textContent = getText('level_3');
@@ -114,5 +144,6 @@ function updateUIText() {
 
 window.addEventListener('changeLevel', (e) => {
     const newLevel = e.detail.level;
-    window.handleLevelClick(newLevel);
+    state.currentLevel = newLevel;
+    window.setGameMode(state.gameMode);
 });

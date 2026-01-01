@@ -17,7 +17,7 @@ function generateMemoryBoard() {
     let columns = 3;
     const level = parseInt(state.currentLevel) || 1;
 
-    if (level === 1) { pairsCount = 6; columns = 3; }     // 12 cards (3x4)
+    if (level <= 1) { pairsCount = 6; columns = 3; }     // 12 cards (3x4)
     else if (level === 2) { pairsCount = 8; columns = 4; } // 16 cards (4x4)
     else if (level === 3) { pairsCount = 10; columns = 5; } // 20 cards (5x4)
     else if (level >= 4) { pairsCount = 12; columns = 6; }  // 24 cards (6x4)
@@ -25,16 +25,63 @@ function generateMemoryBoard() {
     let availableWords = [...state.words];
     if (availableWords.length === 0) return;
 
-    let count = Math.min(availableWords.length, pairsCount);
-    let selectedWords = shuffleArray(availableWords).slice(0, count);
+    // Helper: Get First Letter
+    const getFirstLetter = (wordObj) => {
+        const text = state.currentLanguage === 'en' ? wordObj.word : wordObj.nikud;
+        const clean = state.currentLanguage === 'en' ? text : text.replace(/[\u0591-\u05C7]/g, '').trim();
+        return clean.charAt(0);
+    };
+
+    let selectedWords = [];
+
+    if (state.gameMode === 'memory-letter') {
+        // Level 0 Logic: Unique Pictures by First Letter
+        const wordsByLetter = {};
+
+        availableWords.forEach(w => {
+            const letter = getFirstLetter(w);
+            if (!wordsByLetter[letter]) wordsByLetter[letter] = [];
+            wordsByLetter[letter].push(w);
+        });
+
+        const uniqueLetters = Object.keys(wordsByLetter);
+        const shuffledLetters = shuffleArray(uniqueLetters);
+
+        // Take unique letters up to pairsCount
+        const targetCount = Math.min(shuffledLetters.length, pairsCount);
+
+        for (let i = 0; i < targetCount; i++) {
+            const letter = shuffledLetters[i];
+            const possibleWords = wordsByLetter[letter];
+            // Pick random word for this letter
+            const randomWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+            selectedWords.push(randomWord);
+        }
+    } else {
+        // Standard Level Logic
+        let count = Math.min(availableWords.length, pairsCount);
+        selectedWords = shuffleArray(availableWords).slice(0, count);
+    }
 
     const grid = document.getElementById('memory-grid');
     grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 
     state.memoryCards = [];
     selectedWords.forEach(word => {
+        // Always add Image Card
         state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
-        state.memoryCards.push({ id: word.id, content: state.currentLanguage === 'en' ? word.word : word.nikud, type: 'word', wordObj: word });
+
+        if (state.gameMode === 'memory-letter') {
+            // Level 0: Picture <-> First Letter
+            const letter = getFirstLetter(word);
+            state.memoryCards.push({ id: word.id, content: letter, type: 'letter', wordObj: word });
+        } else if (state.gameMode === 'memory-pic' || state.currentLevel === 0) {
+            // Level 0: Picture <-> Picture
+            state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
+        } else {
+            // Standard Mode -> Second card is Text
+            state.memoryCards.push({ id: word.id, content: state.currentLanguage === 'en' ? word.word : word.nikud, type: 'word', wordObj: word });
+        }
     });
 
     state.memoryCards = shuffleArray(state.memoryCards);
@@ -70,6 +117,10 @@ function generateMemoryBoard() {
                 back.textContent = card.wordObj.image;
                 back.style.fontSize = '3rem';
             }
+        } else if (card.type === 'letter') {
+            back.textContent = card.content;
+            back.style.fontSize = '5rem'; // Very large for single letter
+            back.style.color = 'var(--primary-color)';
         } else {
             back.textContent = card.content;
             back.style.direction = state.currentLanguage === 'en' ? 'ltr' : 'rtl';

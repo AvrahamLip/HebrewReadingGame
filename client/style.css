@@ -227,13 +227,24 @@ button:active {
 }
 
 /* --- Level Buttons --- */
+.level-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
 .level-buttons button {
     background: white;
     color: var(--text-color);
     border: 2px solid var(--secondary-color);
     box-shadow: 0 5px 0 var(--secondary-color);
-    margin: 10px;
-    width: 200px;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 400px;
+    /* Wider and uniform */
+    box-sizing: border-box;
 }
 
 .level-buttons button:hover {

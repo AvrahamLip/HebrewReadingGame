@@ -4,7 +4,9 @@ import { shuffleArray } from './utils.js';
 
 export async function fetchWords(level) {
     try {
-        const res = await fetch(`${API_URL}/api/words/${level}`);
+        const isLevelZero = level === 0 || (typeof level === 'string' && level.toString().startsWith('0'));
+        const url = isLevelZero ? `${API_URL}/api/words` : `${API_URL}/api/words/${level}`;
+        const res = await fetch(url);
         const data = await res.json();
         if (data.message === 'success') {
             let words = data.data;
@@ -24,3 +26,4 @@ export async function fetchWords(level) {
         return [];
     }
 }
+

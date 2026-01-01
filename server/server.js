@@ -62,8 +62,15 @@ app.get('/api/words', (req, res) => {
 
 // Get words by level
 app.get('/api/words/:level', (req, res) => {
-    const sql = "SELECT * FROM words WHERE level = ?";
-    const params = [req.params.level];
+    let sql, params;
+    if (req.params.level == 0) {
+        // Level 0: "Tolerance" mode - All words from all levels
+        sql = "SELECT * FROM words";
+        params = [];
+    } else {
+        sql = "SELECT * FROM words WHERE level = ?";
+        params = [req.params.level];
+    }
     console.log(`Fetching words for level ${req.params.level}...`);
     db.all(sql, params, (err, rows) => {
         if (err) {

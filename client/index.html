@@ -26,29 +26,54 @@
             </div>
         </div>
 
-        <!-- Welcome Screen (Game Mode Selection) -->
-        <div id="welcome-screen" class="screen hidden">
+        <!-- Page 2: Level Selection Screen -->
+        <div id="level-screen" class="screen hidden">
             <h1 id="welcome-title">לומדים לקרוא בכיף! 🦁</h1>
-            <h2 id="choose-game-mode-title">בחר סוג משחק:</h2>
-            <div class="mode-selector" style="margin-bottom: 20px;">
-                <button id="mode-read" class="mode-btn selected" onclick="setGameMode('read')">🎤 קריאה בדיבור</button>
-                <button id="mode-match" class="mode-btn" onclick="setGameMode('match')">👆 התאמת מילים</button>
-                <button id="mode-memory" class="mode-btn" onclick="setGameMode('memory')">🧠 משחק זיכרון</button>
-            </div>
-
             <h2 id="choose-level-title">בחר רמה להתחלה:</h2>
             <div class="level-buttons">
-                <button id="lvl-btn-1" onclick="handleLevelClick(1)">רמה 1: קמץ ופתח</button>
-                <button id="lvl-btn-2" onclick="handleLevelClick(2)">רמה 2: חיריק</button>
-                <button id="lvl-btn-3" onclick="handleLevelClick(3)">רמה 3: סגול וצירה</button>
-                <button id="lvl-btn-4" onclick="handleLevelClick(4)">רמה 4: שורוק וקובוץ</button>
+                <!-- Using new function selectLevel(level) defined in main.js -->
+                <button id="lvl-btn-0" onclick="selectLevel(0)" style="border-color: #FF6B6B; background: #FFF5F5;">רמה
+                    0: טרום קריאה ❤️</button>
+                <button id="lvl-btn-1" onclick="selectLevel(1)">רמה 1: קמץ ופתח</button>
+                <button id="lvl-btn-2" onclick="selectLevel(2)">רמה 2: חיריק</button>
+                <button id="lvl-btn-3" onclick="selectLevel(3)">רמה 3: סגול וצירה</button>
+                <button id="lvl-btn-4" onclick="selectLevel(4)">רמה 4: שורוק וקובוץ</button>
             </div>
             <button onclick="showLanguageScreen()"
                 style="margin-top: 20px; background: transparent; border: 1px solid #ccc; color: #666;">🔙 Change
                 Language / שנה שפה</button>
-            <p id="mic-error-welcome" class="error-message hidden">לא נמצא מיקרופון. אנא אפשר גישה למיקרופון.</p>
             <div class="version-info" style="margin-top: 20px; font-size: 0.8rem; color: #888;">
-                v1.4.0 (Friendly Assets Update 🦁)
+                v1.6.0 (Step-by-Step Flow 🦁)
+            </div>
+        </div>
+
+        <!-- Page 3: Game Mode Selection Screen -->
+        <div id="game-mode-screen" class="screen hidden">
+            <h1 id="game-selection-title">בחירת משחק 🎮</h1>
+            <h2 id="choose-game-mode-title">בחר סוג משחק:</h2>
+            <div class="mode-selector" style="margin-bottom: 20px;">
+
+                <!-- Standard Modes -->
+                <div id="standard-modes" class="mode-selector" style="margin-bottom: 20px;">
+                    <button id="mode-read" class="mode-btn" onclick="setGameMode('read')">🎤 קריאה בדיבור</button>
+                    <button id="mode-match" class="mode-btn" onclick="setGameMode('match')">👆 התאמת מילים</button>
+                    <button id="mode-memory" class="mode-btn" onclick="setGameMode('memory')">🧠 משחק זיכרון</button>
+                </div>
+
+                <!-- Level 0 Modes -->
+                <div id="level0-modes" class="mode-selector" style="margin-bottom: 20px; display: none;">
+                    <button id="mode-mem-pic" class="mode-btn" onclick="setGameMode('memory-pic')">🖼️ תמונות
+                        בלבד</button>
+                    <button id="mode-mem-letter" class="mode-btn" onclick="setGameMode('memory-letter')">🅰️ אות
+                        פותחת</button>
+                </div>
+
+                <button onclick="showLevelScreen()"
+                    style="margin-top: 20px; background: transparent; border: 1px solid #ccc; color: #666;">🔙 Change
+                    Level
+                    / שנה רמה</button>
+
+                <p id="mic-error-welcome" class="error-message hidden">לא נמצא מיקרופון. אנא אפשר גישה למיקרופון.</p>
             </div>
         </div>
 
@@ -123,7 +148,8 @@
                 <!-- Buttons injected by JS -->
             </div>
             <div style="text-align: center; margin-top: 20px;">
-                <button id="skip-btn-match" onclick="skipWord()" style="background-color: #aaa; font-size: 1rem;">⏭️ דלג
+                <button id="skip-btn-match" onclick="skipWord()" style="background-color: #aaa; font-size: 1rem;">⏭️
+                    דלג
                     על מילה</button>
             </div>
         </div>
@@ -134,7 +160,8 @@
                 <button onclick="goHome()" class="home-btn" id="home-btn-memory">🏠 בית</button>
                 <button onclick="restartLevel()" class="home-btn" id="restart-btn-memory"
                     style="margin-right: 5px; background-color: #f0ad4e;">🔄 מחדש</button>
-                <div class="score"><span id="pairs-left-label">זוגות נותרו:</span> <span id="pairs-left">0</span></div>
+                <div class="score"><span id="pairs-left-label">זוגות נותרו:</span> <span id="pairs-left">0</span>
+                </div>
             </div>
 
             <div id="memory-grid" class="memory-grid">
