@@ -89,3 +89,47 @@ export function goHome() {
     window.speechSynthesis.cancel();
     location.reload();
 }
+
+export function playSound(type) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'correct') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(100, ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+    } else if (type === 'success') {
+        const now = ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.frequency.value = freq;
+            osc2.type = 'triangle';
+            gain2.gain.setValueAtTime(0.1, now + i * 0.1);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.3);
+            osc2.start(now + i * 0.1);
+            osc2.stop(now + i * 0.1 + 0.3);
+        });
+    }
+}

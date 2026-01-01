@@ -571,3 +571,136 @@ footer a {
 .shake {
     animation: shake 0.5s;
 }
+
+/* --- Hangman Game --- */
+.word-display {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    direction: rtl;
+    /* Ensure Hebrew flows right to left */
+    min-height: 80px;
+    align-items: flex-end;
+    /* Align to bottom for the lines */
+}
+
+.hangman-char {
+    display: inline-block;
+    min-width: 45px;
+    height: 60px;
+    border-bottom: 5px solid var(--text-color);
+    text-align: center;
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    line-height: 60px;
+    transition: all 0.3s;
+    margin: 0 2px;
+}
+
+.hangman-char.revealed {
+    border-bottom-color: var(--success-color);
+    transform: translateY(-5px);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State Animation/Visibility */
+.hangman-char:not(.revealed) {
+    border-bottom-style: dashed;
+    border-bottom-color: #ccc;
+    background: rgba(0, 0, 0, 0.03);
+    /* Slight grey background to show the slot */
+    border-radius: 5px 5px 0 0;
+}
+
+.keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    direction: rtl;
+}
+
+.hangman-key {
+    background: white;
+    border: 2px solid #ddd;
+    border-bottom: 4px solid #ccc;
+    /* Thicker bottom for 3D feel */
+    border-radius: 8px;
+    font-size: 1.5rem;
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: all 0.1s;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    /* Ensure text is visible */
+    font-weight: bold;
+    margin: 0;
+    min-height: 50px;
+}
+
+.hangman-key:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+.hangman-key.used {
+    background: #f0f0f0;
+    color: #ccc;
+    border-color: #eee;
+    box-shadow: none;
+    cursor: default;
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+.hangman-key.correct {
+    background: var(--success-color);
+    color: white;
+    border-color: #55b560;
+}
+
+.hangman-key.wrong {
+    background: var(--error-color);
+    color: white;
+    border-color: #d64542;
+    opacity: 0.8;
+}
+
+/* Ensure Image within container is centered and contained */
+#hangman-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* Ensure it takes full width for centering to work */
+}
+
+#hangman-image-container img.game-asset-image {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 15px;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+    display: block;
+    margin: 0 auto;
+}
+
+#hangman-image-container .emoji {
+    font-size: 6rem;
+    display: block;
+    margin: 0 auto;
+}
+
+.full-word-reveal {
+    font-size: 4rem;
+    color: var(--primary-color);
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+    padding: 10px 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}

@@ -15,6 +15,7 @@ export const UI_TEXT = {
         'level_0': "רמה 0: טרום קריאה ❤️",
         'level_0_pic': "משחק זיכרון\n תמונות בלבד 🖼️",
         'level_0_letter': "משחק זיכרון\n אות פותחת 🅰️",
+        'level_0_letters': "משחק זיכרון\n אותיות בלבד 🔠",
         'level_1': "רמה 1: קמץ ופתח",
         'level_2': "רמה 2: חיריק",
         'level_3': "רמה 3: סגול וצירה",
@@ -38,7 +39,9 @@ export const UI_TEXT = {
         'alert_no_image': "כל הכבוד! סיימת את כל המילים. עכשיו ננסה בלי תמונות! 🫣",
         'mode_memory': "🧠 משחק זיכרון",
         'pairs_left_label': "זוגות נותרו: ",
-        'btn_skip_game': "⏭️ דלג משחק"
+        'btn_skip_game': "⏭️ דלג משחק",
+        'mode_hangman': "🔤 השלמת מילים",
+        'hangman_progress_label': "מילה: "
     },
     'en': {
         'welcome_title': "Learn to Read! 🦁",
@@ -49,6 +52,7 @@ export const UI_TEXT = {
         'level_0': "Level 0: Pre-Reading ❤️",
         'level_0_pic': "Pictures Only 🖼️",
         'level_0_letter': "First Letter 🅰️",
+        'level_0_letters': "Letters Only 🔠",
         'level_1': "Level 1: Basic Words",
         'level_2': "Level 2: Common Objects",
         'level_3': "Level 3: Animals & Nature",
@@ -72,6 +76,8 @@ export const UI_TEXT = {
         'alert_no_image': "Great job! Now let's try without pictures! 🫣",
         'mode_memory': "🧠 Memory Game",
         'pairs_left_label': "Pairs Left: ",
-        'btn_skip_game': "⏭️ Skip Game"
+        'btn_skip_game': "⏭️ Skip Game",
+        'mode_hangman': "🔤 Guess the Word",
+        'hangman_progress_label': "Word: "
     }
 };

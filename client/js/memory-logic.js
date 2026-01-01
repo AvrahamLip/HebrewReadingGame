@@ -34,7 +34,7 @@ function generateMemoryBoard() {
 
     let selectedWords = [];
 
-    if (state.gameMode === 'memory-letter') {
+    if (state.gameMode === 'memory-letter' || state.gameMode === 'memory-letters') {
         // Level 0 Logic: Unique Pictures by First Letter
         const wordsByLetter = {};
 
@@ -68,19 +68,26 @@ function generateMemoryBoard() {
 
     state.memoryCards = [];
     selectedWords.forEach(word => {
-        // Always add Image Card
-        state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
-
-        if (state.gameMode === 'memory-letter') {
-            // Level 0: Picture <-> First Letter
+        if (state.gameMode === 'memory-letters') {
+            // Level 0: Letter <-> Letter
             const letter = getFirstLetter(word);
             state.memoryCards.push({ id: word.id, content: letter, type: 'letter', wordObj: word });
-        } else if (state.gameMode === 'memory-pic' || state.currentLevel === 0) {
-            // Level 0: Picture <-> Picture
-            state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
+            state.memoryCards.push({ id: word.id, content: letter, type: 'letter', wordObj: word });
         } else {
-            // Standard Mode -> Second card is Text
-            state.memoryCards.push({ id: word.id, content: state.currentLanguage === 'en' ? word.word : word.nikud, type: 'word', wordObj: word });
+            // Always add Image Card first for other modes
+            state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
+
+            if (state.gameMode === 'memory-letter') {
+                // Level 0: Picture <-> First Letter
+                const letter = getFirstLetter(word);
+                state.memoryCards.push({ id: word.id, content: letter, type: 'letter', wordObj: word });
+            } else if (state.gameMode === 'memory-pic' || state.currentLevel === 0) {
+                // Level 0: Picture <-> Picture
+                state.memoryCards.push({ id: word.id, content: word.image_path, type: 'image', wordObj: word });
+            } else {
+                // Standard Mode -> Second card is Text
+                state.memoryCards.push({ id: word.id, content: state.currentLanguage === 'en' ? word.word : word.nikud, type: 'word', wordObj: word });
+            }
         }
     });
 

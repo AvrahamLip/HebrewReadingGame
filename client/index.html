@@ -58,6 +58,7 @@
                     <button id="mode-read" class="mode-btn" onclick="setGameMode('read')">🎤 קריאה בדיבור</button>
                     <button id="mode-match" class="mode-btn" onclick="setGameMode('match')">👆 התאמת מילים</button>
                     <button id="mode-memory" class="mode-btn" onclick="setGameMode('memory')">🧠 משחק זיכרון</button>
+                    <button id="mode-hangman" class="mode-btn" onclick="setGameMode('hangman')">🔤 השלמת מילים</button>
                 </div>
 
                 <!-- Level 0 Modes -->
@@ -66,6 +67,8 @@
                         בלבד</button>
                     <button id="mode-mem-letter" class="mode-btn" onclick="setGameMode('memory-letter')">🅰️ אות
                         פותחת</button>
+                    <button id="mode-mem-letters" class="mode-btn" onclick="setGameMode('memory-letters')">🔠 אותיות
+                        בלבד</button>
                 </div>
 
                 <button onclick="showLevelScreen()"
@@ -173,6 +176,38 @@
             </div>
         </div>
 
+        <!-- Hangman Game Screen -->
+        <div id="hangman-screen" class="screen hidden">
+            <div class="header">
+                <button onclick="goHome()" class="home-btn" id="home-btn-hangman">🏠 בית</button>
+                <div class="progress-container" style="flex-grow: 1; text-align: left; padding-left: 15px;">
+                    <span id="hangman-progress-label">מילה:</span>
+                    <span id="hangman-progress">1 / 10</span>
+                </div>
+            </div>
+
+            <div class="card hangman-card"
+                style="margin: 20px auto; padding: 30px; max-width: 400px; min-height: 450px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+                <div id="hangman-image-container" class="image-area"
+                    style="width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                    <!-- Image rendered by JS -->
+                </div>
+                <div id="hangman-char-display" class="word-display"
+                    style="margin-top:20px; margin-bottom: 0; display: flex; justify-content: center; gap: 15px; direction: rtl;">
+                    <!-- Letters go here -->
+                </div>
+            </div>
+
+            <div id="hangman-keyboard" class="keyboard-grid">
+                <!-- Keys injected by JS -->
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="skip-btn-hangman" onclick="skipWord()" style="background-color: #aaa; font-size: 1rem;">⏭️
+                    דלג על מילה</button>
+            </div>
+        </div>
+
         <!-- Success Overlay -->
         <div id="success-overlay" class="overlay hidden">
             <div class="checkmark">✨ כל הכבוד! ✨</div>
@@ -192,6 +227,19 @@
             <button onclick="goHome()"
                 style="background-color: #888; margin-top: 20px; font-size: 1rem; padding: 10px 20px;">🏠 חזרה
                 לבית</button>
+        </div>
+
+        <!-- Hangman Success Overlay -->
+        <div id="hangman-success-overlay" class="overlay hidden"
+            style="flex-direction: column; background: rgba(255, 255, 255, 0.95);">
+            <div class="checkmark" style="color: var(--secondary-color); margin-bottom: 20px;">✨ מצוין! ✨</div>
+            <div style="font-size: 1.5rem; margin-bottom: 30px; color: #333; text-align: center;">ניחשת את כל המילים! 🦁
+            </div>
+            <div style="display: flex; gap: 20px;">
+                <button onclick="restartHangmanLevel()" style="background-color: var(--accent-color);">🔄 שחק
+                    שוב</button>
+                <button onclick="goHome()" style="background-color: var(--secondary-color);">🏠 ראשי</button>
+            </div>
         </div>
 
         <footer>
